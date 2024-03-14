@@ -1,0 +1,89 @@
+@startuml Backend
+'https://plantuml.com/class-diagram
+
+
+User --> Travel
+User "1" --> "*" Permission : has
+Travel -right-> Planning
+Travel -down-> Expense
+Planning -up-> Activity
+
+class User {
+- id : int
+- name : string
+- surname : string
+- urlImg: string
+- email : string
+- password : string
+- passwordValidated : boolean
+- token : string
+- oauthPlatform : string
+' coords para que es?
+- coords : List<int>
+- city : string
+- country : string
+- tagPreferences : List<string>
+- travelsPast : List<Travel>
+- travelActive : Travel
+- travelFuture : List<Travel>
+- friendsList : List<User>
+- getSpecificTravel(id) : Travel
+- getPermissionsByTravel(idTravel) : Permission
+}
+
+class Permission {
+- createPlanning : boolean 
+- deletePlanning : boolean
+- addActivity : boolean
+- moveActivity : boolean
+- deleteActivity : boolean
+- addImage : boolean
+- removeImage : boolean
+- seeImages : boolean
+}
+
+class Travel {
+- id : int
+- origin : string
+- destination : string
+- budget : double
+- dateFrom : Date
+- dateTo : Date
+- admin : User
+- travelers : List<User>
+- planning : List<Planning>
+- expenses : Expense
+}
+
+' es necesaria? no es mejor en activity poner el price?
+class Expense{
+- totalExpenses : int
+- totalSum : float
+- contributors : int
+}
+
+class Planning{
+- id : int
+- active : boolean
+- rating : number
+- comments : string
+- travelers : List<User>
+- activities : List<Activity>
++ getTotalPrice()
+}
+
+class Activity{
+- id: int
+- tag: string
+' localization son coordenadas?
+- localization: List<int>
+- startDate: Date
+- endDate: Date
+' time in minuts
+- time: number
+- url: string
+- mobileNumber: int
+- price: double
+}
+
+@enduml
