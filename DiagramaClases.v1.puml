@@ -1,12 +1,13 @@
 @startuml Backend
 'https://plantuml.com/class-diagram
 
-
+User --> User
 User --> Travel
 User "1" --> "*" Permission : has
-Travel -right-> Planning
+Travel -left-> Planning
 Travel -down-> Expense
 Planning -up-> Activity
+Activity -right-> Tag
 
 class User {
 - id : int
@@ -18,16 +19,14 @@ class User {
 - passwordValidated : boolean
 - token : string
 - oauthPlatform : string
-' coords para que es?
-- coords : List<int>
 - city : string
 - country : string
 - tagPreferences : List<string>
-- travelsPast : List<Travel>
+- travels : List<Travel>
 - travelActive : Travel
-- travelFuture : List<Travel>
 - friendsList : List<User>
-- getSpecificTravel(id) : Travel
+- getPastTravels()
+- getFutureTravels()
 - getPermissionsByTravel(idTravel) : Permission
 }
 
@@ -40,6 +39,8 @@ class Permission {
 - addImage : boolean
 - removeImage : boolean
 - seeImages : boolean
+- addTravelers: boolean
+- removeTravelers: boolean
 }
 
 class Travel {
@@ -55,35 +56,41 @@ class Travel {
 - expenses : Expense
 }
 
-' es necesaria? no es mejor en activity poner el price?
+' Gastos generales: no asociados a una actividad en concreto
 class Expense{
-- totalExpenses : int
-- totalSum : float
-- contributors : int
+- id : int
+- description: string
+- total : double
+- contributors : List<User>
+- travel : Travel
 }
 
 class Planning{
 - id : int
 - active : boolean
-- rating : number
+- rating : integer
 - comments : string
-- travelers : List<User>
 - activities : List<Activity>
 + getTotalPrice()
 }
 
 class Activity{
 - id: int
-- tag: string
-' localization son coordenadas?
-- localization: List<int>
+- apiId: string
+- name: string
+- tags: List<Tag>
 - startDate: Date
 - endDate: Date
 ' time in minuts
-- time: number
-- url: string
+- time: int
+- urlImage: string
 - mobileNumber: int
 - price: double
 }
+
+class Tag {
+- tagName: string
+}
+
 
 @enduml
