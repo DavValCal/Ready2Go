@@ -28,6 +28,8 @@ class User {
 - getPermissionsByTravel(idTravel) : Permission
 }
 
+' entre user y traver habría que hacer una entidad o tabla intermedia a parte de 
+' permission para indicar si, cuando te invitan a un travel, el usuario ha aceptado (así pondria en la app como pendiente)
 class Permission {
 - createPlanning : boolean 
 - deletePlanning : boolean
