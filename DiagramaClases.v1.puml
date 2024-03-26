@@ -1,0 +1,91 @@
+@startuml Backend
+'https://plantuml.com/class-diagram
+
+User --> User
+User --> Travel
+User "1" --> "*" Permission : has
+Travel -down-> Expense
+Travel -up-> Activity
+Activity -right-> Tag
+
+class User {
+- id : int
+- name : string
+- surname : string
+- urlImg: string
+- email : string
+- password : string
+- passwordValidated : boolean
+- token : string
+- oauthPlatform : string
+- city : string
+- country : string
+- tagPreferences : List<string>
+- travels : List<Travel>
+- friendsList : List<User>
+- getPastTravels()
+- getFutureTravels()
+- getPermissionsByTravel(idTravel) : Permission
+}
+
+' entre user y traver habría que hacer una entidad o tabla intermedia a parte de 
+' permission para indicar si, cuando te invitan a un travel, el usuario ha aceptado (así pondria en la app como pendiente)
+class Permission {
+- createPlanning : boolean 
+- deletePlanning : boolean
+- addActivity : boolean
+- moveActivity : boolean
+- deleteActivity : boolean
+- addImage : boolean
+- removeImage : boolean
+- seeImages : boolean
+- addTravelers: boolean
+- removeTravelers: boolean
+}
+
+class Travel {
+- id : int
+- origin : string
+- destination : string
+- budget : double
+- dateFrom : Date
+- dateTo : Date
+- admin : User
+- rating : integer
+- comments : string
+- activities : List<Activity>
+- travelers : List<User>
+- planning : List<Planning>
+- expenses : Expense
++ getTotalPrice()
+}
+
+' Gastos generales: no asociados a una actividad en concreto
+class Expense{
+- id : int
+- description: string
+- total : double
+- contributors : List<User>
+- travel : Travel
+}
+
+class Activity{
+- id: int
+- apiId: string
+- name: string
+- tags: List<Tag>
+- startDate: Date
+- endDate: Date
+' time in minuts
+- time: int
+- urlImage: string
+- mobileNumber: int
+- price: double
+}
+
+class Tag {
+- tagName: string
+}
+
+
+@enduml
